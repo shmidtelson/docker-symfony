@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  contender-db:
+    image: mariadb
+    container_name: contender-db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=MzF46TqoAug6Y
+      - MYSQL_DATABASE=contender
+      - MYSQL_USER=contender
+      - MYSQL_PASSWORD=7SI6dsa5GHB7f
+    expose:
+      - 3306
+    ports:
+      - 7912:3306
+
+  contender-php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    container_name: contender-php
+    volumes:
+      - ./app:/var/www/app
+    depends_on:
+      - contender-db
+    environment:
+      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=Docker"
+
+  contender-web:
+    image: nginx:latest
+    container_name: contender-web
+    volumes:
+      - ./nginx/back.conf:/etc/nginx/conf.d/default.conf
+      - ./app:/var/www/app
+    depends_on:
+      - contender-db
+      - contender-php
+    expose:
+      - 80
+      - 443
+    ports:
+      - 80:80
+
+volumes:
+  db_data:
