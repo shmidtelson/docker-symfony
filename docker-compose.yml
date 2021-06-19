@@ -22,11 +22,11 @@ services:
       dockerfile: Dockerfile
     container_name: contender-php
     volumes:
+      - ./php-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./app:/var/www/app
     depends_on:
       - contender-db
     environment:
-      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
       PHP_IDE_CONFIG: "serverName=Docker"
 
   contender-web:

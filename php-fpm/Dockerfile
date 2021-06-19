@@ -14,6 +14,4 @@ RUN wget https://getcomposer.org/installer -O - -q \
 
 RUN usermod -u 1000 www-data
 
-EXPOSE 9000
-
 WORKDIR /var/www/app

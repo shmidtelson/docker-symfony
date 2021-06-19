@@ -1,3 +1,2 @@
 <?php
-echo 'Xdebug testing';
-phpinfo();
+echo 'Hello world';
